@@ -65,4 +65,32 @@ export class LinkedList<T> {
     }
     return head
   }
+
+  public static splitReverse<T> (list: LinkedList<T> | null, n: number) {
+    let head = list
+
+    if (head && head.next) { // 只处理非 null 且长度大于 1 的链表
+      let prevSubLast: LinkedList<T> | null = null // 上一条子链表的末端节点
+      let subHead = list // 当前子链表的首节点
+      let subLast = subHead // 当前子链表末端节点
+      let curr = subLast?.next // 当前反转的节点
+      let next: LinkedList<T> | null // 下一要反转的节点
+
+      for (let i = 1; curr; i++) { // 因为 curr 已经是第二个元素，所以 i 从 1 开始
+        next = curr.next // 下一反转节点后移
+        curr.next = subHead // 当前节点放置到首部
+        subHead = curr // 段首的指针指向新的首节点
+        curr = next // 处理下一个节点
+
+        if (i % n) { // 每反转完一段子链表
+          if (prevSubLast) { // 如果上一子链表的末端节点不为 null
+            prevSubLast.next = subHead
+            // todo: 连接子链表，缓存新的 prevSubLast subLast
+          } else {
+            prevSubLast = subLast
+          }
+        }
+      }
+    }
+  }
 }

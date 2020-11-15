@@ -9,6 +9,9 @@ export class BinaryTree {
     this.rightChild = rightChild
   }
 
+  /**
+   * 默认前序遍历
+   */
   *[Symbol.iterator] (): Generator<number> {
     yield this.value
     if (this.leftChild) {
@@ -19,6 +22,36 @@ export class BinaryTree {
     }
   }
 
+  /**
+   * 中序遍历
+   */
+  public *inOrderTraverse (): Generator<number> {
+    if (this.leftChild) {
+      yield* this.leftChild.inOrderTraverse()
+    }
+    yield this.value
+    if (this.rightChild) {
+      yield* this.rightChild.inOrderTraverse()
+    }
+  }
+
+  /**
+   * 后序遍历
+   */
+  public * postOrderTraverse (): Generator<number> {
+    if (this.leftChild) {
+      yield* this.leftChild.postOrderTraverse()
+    }
+    if (this.rightChild) {
+      yield* this.rightChild.postOrderTraverse()
+    }
+    yield this.value
+  }
+
+  /**
+   * 插入节点到二叉树
+   * @param value 新节点的值
+   */
   public insert (value: number) {
     if (value > this.value) { // 插入右子树
       if (this.rightChild) {
@@ -34,6 +67,21 @@ export class BinaryTree {
       }
     }
     // value 相同时忽略
+  }
+
+  /**
+   * 从数组生成二叉树
+   * @param values 节点值
+   */
+  public static fromArray (values: number[]) {
+    let tree: BinaryTree | null = null
+    if (Array.isArray(values) && values.length !== 0) {
+      tree = new BinaryTree(values[0])
+      for (let i = 1; i < values.length; i++) {
+        tree.insert(values[i])
+      }
+    }
+    return tree
   }
 
   /**

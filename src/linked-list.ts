@@ -93,4 +93,23 @@ export class LinkedList<T> {
       }
     }
   }
+
+  /**
+   * 判断链表是否成环，如果有则返回环入口节点，否则返回 null
+   */
+  public ringNode (): LinkedList<T> | null {
+    const nodeSet = new WeakSet<LinkedList<T>>([this])
+    let entrance: LinkedList<T> | null = null
+    let cursor = this.next
+    while (cursor) {
+      if (nodeSet.has(cursor)) { // 利用 set 的哈希表快速判断节点是否重复
+        entrance = cursor // 遇到同一节点，该节点为环入口
+        break
+      } else {
+        nodeSet.add(cursor)
+        cursor = cursor.next
+      }
+    }
+    return entrance
+  }
 }

@@ -1,3 +1,17 @@
-node_modules
-dist
+# mac
 .DS_Store
+
+# eclipse
+.classpath
+.project
+.settings
+
+# Intellij
+.idea
+*.iml
+*.iws
+
+# maven
+log
+target
+.mvn
